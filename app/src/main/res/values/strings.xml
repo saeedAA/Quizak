@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Quizak</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <!-- Question -->
+    <string name="tv_question">Getting question.. </string>
+    <string name="answer">Getting answers.. </string>
+
+    <!-- Menu -->
+    <string name="action_refresh">Refresh</string>
+    <string name="title_activity_question">QuestionActivity</string>
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_quiz">QuizActivity</string>
+
+</resources>
