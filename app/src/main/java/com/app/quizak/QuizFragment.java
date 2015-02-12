@@ -4,12 +4,17 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ListView;
 import android.widget.Toast;
+
+import org.json.JSONException;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -19,6 +24,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * Created by Sa'eed Abdullah on 010, 10, 2, 2015.
@@ -26,8 +33,19 @@ import java.net.URL;
 public class QuizFragment extends Fragment {
 
     private User mUser;
+    private QuizAdapter mQuizAdapter;
+    private String mToken;
 
     public QuizFragment() {
+    }
+
+    @Override
+    public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if(savedInstanceState != null){
+            mToken = savedInstanceState.getString(User.USER_TOKEN_KEY);
+            Log.v(User.USER_TOKEN_KEY + " restoring", mToken);
+        }
     }
 
     @Override
@@ -35,25 +53,62 @@ public class QuizFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_quiz, container, false);
         String email;
-        String token;
         Intent intent = getActivity().getIntent();
         if (intent != null && intent.hasExtra(User.USER_MAIL_KEY)
                 && intent.hasExtra(User.USER_TOKEN_KEY)) {
-            token = intent.getExtras().getString(User.USER_TOKEN_KEY);
+            mToken = intent.getExtras().getString(User.USER_TOKEN_KEY);
             email = intent.getExtras().getString(User.USER_MAIL_KEY);
-            mUser = new User(token);
+            mUser = new User(mToken);
             mUser.setMail(email);
 
-            Log.v("QuizFragment",Integer.toString(mUser.getId()));
+            getActivity().setTitle(mUser.getName());
+
+            ListView listView = (ListView) rootView.findViewById(R.id.quiz_listView);
+            mQuizAdapter = new QuizAdapter(getActivity(),
+                    R.layout.list_item_quiz,
+                    new ArrayList<Quiz>());
+            listView.setAdapter(mQuizAdapter);
+
+            GetQuizes getQuizes = new GetQuizes();
+            getQuizes.execute();
+
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    Quiz quiz = mQuizAdapter.getItem(position);
+                    int quizId = quiz.getQuizId();
+
+                    if(!quiz.isTaken()){
+                        Intent intent = new Intent(getActivity(), QuestionActivity.class)
+                                .putExtra(Quiz.QUIZ_ID_KEY, quizId)
+                                .putExtra(User.USER_TOKEN_KEY,mToken);
+                        startActivity(intent);
+                    }
+                }
+            });
+
         }
         return rootView;
     }
 
-    private class SendAnswer extends AsyncTask<Void, Void, Boolean> {
-        private final String LOG_TAG = SendAnswer.class.getSimpleName();
+    @Override
+    public void onStart() {
+        super.onStart();
+
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putString(User.USER_TOKEN_KEY, mToken);
+        Log.v(User.USER_TOKEN_KEY + " saving", mToken);
+    }
+
+    private class GetQuizes extends AsyncTask<Void, Void, Quiz[]> {
+        private final String LOG_TAG = GetQuizes.class.getSimpleName();
 
         @Override
-        protected Boolean doInBackground(Void... params) {
+        protected Quiz[] doInBackground(Void... params) {
             HttpURLConnection urlConnection;
             BufferedReader reader = null;
             String quizJsonStr = null;
@@ -97,8 +152,12 @@ public class QuizFragment extends Fragment {
                     return null;
                 }
                 quizJsonStr = buffer.toString();
+                Log.v(LOG_TAG,quizJsonStr);
 
-                return isTrue;
+                Parser parser = new Parser();
+                Quiz[] quiz = parser.getQuiz(quizJsonStr);
+
+                return quiz;
 
             } catch (MalformedURLException e) {
                 Log.e(LOG_TAG,e.toString());
@@ -106,16 +165,20 @@ public class QuizFragment extends Fragment {
                 Log.e(LOG_TAG,e.toString());
             } catch (IOException e) {
                 Log.e(LOG_TAG,e.toString());
+            } catch (JSONException e) {
+                e.printStackTrace();
             }
 
             return null;
         }
 
         @Override
-        protected void onPostExecute(Boolean aBoolean) {
-            Toast toast = Toast.makeText(getActivity(),aBoolean.toString(),Toast.LENGTH_SHORT);
-            toast.show();
-            super.onPostExecute(aBoolean);
+        protected void onPostExecute(Quiz[] quizzes) {
+            //ArrayList<Quiz> quizArrayList = new ArrayList<Quiz>(Arrays.asList(quizzes));
+            for(int i=0; i<quizzes.length; i++){
+                mQuizAdapter.add(quizzes[i]);
+            }
+            super.onPostExecute(quizzes);
         }
     }
 }
