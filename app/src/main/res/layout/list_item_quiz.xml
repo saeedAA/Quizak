@@ -1,28 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
+    android:orientation="horizontal"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/rounded_login"
     android:minHeight="?android:attr/listPreferredItemHeight">
 
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_weight="1"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+
+        android:layout_margin="10dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
             android:text="Place Holder"
-            android:id="@+id/list_item_course_name_view" />
+            android:textColor="@color/black"
+            android:fontFamily="sans-serif-condensed"
+            android:id="@+id/list_item_course_name_view"
+            android:layout_margin="10dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="place Holder"
-            android:id="@+id/list_item_question_count_view" />
+            android:textColor="@color/black"
+            android:fontFamily="sans-serif-condensed"
+            android:id="@+id/list_item_question_count_view"
+            android:layout_margin="10dp" />
     </LinearLayout>
 
     <LinearLayout
@@ -30,22 +40,26 @@
         android:orientation="vertical"
         android:layout_width="wrap_content"
         android:layout_weight="0"
-        android:layout_height="match_parent"
-        android:visibility="gone">
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:background="@drawable/rounded_edge_right">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Taken"
+            android:textColor="@color/red"
+            android:id="@+id/list_item_isTaken_view"
+            android:layout_margin="10dp" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceLarge"
-            android:text="Taken"
-            android:id="@+id/list_item_isTaken_view" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
             android:text="15"
-            android:id="@+id/list_item_degree_view" />
+            android:id="@+id/list_item_degree_view"
+            android:layout_margin="10dp" />
     </LinearLayout>
 
 </LinearLayout>

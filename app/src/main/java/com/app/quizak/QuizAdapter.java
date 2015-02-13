@@ -1,6 +1,7 @@
 package com.app.quizak;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +15,7 @@ import java.util.List;
  * Created by Sa'eed Abdullah on 011, 11, 2, 2015.
  */
 public class QuizAdapter extends ArrayAdapter<Quiz> {
+    final static String LOG_TAG = QuizAdapter.class.getSimpleName();
     public QuizAdapter(Context context, int textViewResourceId){
         super(context, textViewResourceId);
     }
@@ -43,7 +45,10 @@ public class QuizAdapter extends ArrayAdapter<Quiz> {
         if(quiz.isTaken()){
             viewHolder.isTakenLayout.setVisibility(view.VISIBLE);
             viewHolder.isTakenView.setText("Taken");
-            viewHolder.degreeView.setText(quiz.getDegree());
+            Log.v(LOG_TAG,Integer.toString(quiz.getDegree()));
+            viewHolder.degreeView.setText(
+                    Integer.toString(quiz.getDegree()) + "/" +
+                            Integer.toString(quiz.getQuestionCount()));
         }
 
         return view;

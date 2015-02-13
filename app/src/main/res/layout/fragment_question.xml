@@ -1,43 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/loading_page">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="PlaceHolder"
-        android:id="@+id/question_num_view"
         android:layout_weight="0"
-        android:textAppearance="?android:textAppearanceMedium"/>
+        android:background="@drawable/rounded_login"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="PlaceHolder"
+            android:fontFamily="sans-serif-condensed"
+            android:id="@+id/question_num_view"
+            android:textColor="@color/black"
+            android:background="@drawable/rounded_login"
+            android:layout_weight="40"
+            android:textAppearance="?android:textAppearanceMedium"
+            android:layout_margin="10dp" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="BACK"
+            android:fontFamily="sans-serif-condensed"
+            android:id="@+id/btn_prev"
+            android:enabled="false"
+            android:background="@color/white"
+            android:layout_gravity="right"
+            android:layout_weight="1" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="NEXT"
+            android:fontFamily="sans-serif-condensed"
+            android:id="@+id/btn_nxt"
+            android:enabled="false"
+            android:background="@drawable/rounded_login"
+            android:layout_gravity="right"
+            android:layout_weight="1" />
+
+    </LinearLayout>
 
     <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:orientation="vertical"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center">
+            android:layout_gravity="top|left|center"
+            android:background="@drawable/rounded_login"
+            android:layout_marginBottom="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:padding="10dp"
+            android:layout_marginTop="10dp">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/tv_question"
+                android:fontFamily="sans-serif-condensed"
                 android:id="@+id/questionStatement_view"
-                android:textAppearance="?android:textAppearanceLarge" />
+                android:textAppearance="?android:textAppearanceLarge"
+                android:layout_gravity="left"/>
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"
+                android:layout_marginTop="7dp" />
 
             <RadioGroup
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="left"
-                android:id="@+id/answers_group">
+                android:id="@+id/answers_group"
+                android:layout_marginTop="8dp">
 
                 <RadioButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/answer"
+                    android:fontFamily="sans-serif-condensed"
                     android:id="@+id/answer1_radio"
                     android:checked="false"
                     android:textAppearance="?android:textAppearanceSmall"/>
@@ -46,6 +99,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/answer"
+                    android:fontFamily="sans-serif-condensed"
                     android:id="@+id/answer2_radio"
                     android:checked="false"
                     android:textAppearance="?android:textAppearanceSmall"/>
@@ -54,6 +108,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/answer"
+                    android:fontFamily="sans-serif-condensed"
                     android:id="@+id/answer3_radio"
                     android:checked="false"
                     android:textAppearance="?android:textAppearanceSmall"/>
@@ -62,40 +117,24 @@
         </LinearLayout>
     </FrameLayout>
 
-    <LinearLayout
-        android:orientation="horizontal"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0">
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="&lt;"
-            android:id="@+id/btn_prev"
-            android:enabled="false" />
-
-        <FrameLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
+        android:layout_gravity="center_horizontal">
         <Button
             style="?android:attr/buttonStyleSmall"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Submit"
+            android:textColor="@color/black"
+            android:textSize="20dp"
+            android:fontFamily="sans-serif-condensed"
             android:id="@+id/btn_submit"
-            android:layout_gravity="center"
-            android:enabled="false" />
-        </FrameLayout>
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=">"
-            android:id="@+id/btn_nxt"
-            android:enabled="false" />
-
-    </LinearLayout>
+            android:layout_gravity="bottom|center_horizontal"
+            android:enabled="false"
+            android:background="@drawable/rounded_button"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp" />
+    </FrameLayout>
 
 </LinearLayout>
